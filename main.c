@@ -1,7 +1,7 @@
 /*
 Project Title: Mini Banking System with Transaction Log
-Student Name: 
-Register No: 
+Student Name: Amrhitha Varshini S
+Register No: 25BCE5794
 */
 
 #include <stdio.h>
@@ -66,8 +66,8 @@ void createAccount() {
     scanf("%d",&a.accNo);
 
     if(a.accNo <= 0) {
-    printf("Invalid Account Number!\n");
-    return;
+        printf("Invalid Account Number!\n");
+        return;
     }
 
     if(accountExists(a.accNo)) {
@@ -88,8 +88,8 @@ void createAccount() {
 
     FILE *fp = fopen("bankdata.dat","ab");
     if(fp == NULL) {
-    printf("File error!\n");
-    return;
+        printf("File error!\n");
+        return;
     }
     fwrite(&a,sizeof(a),1,fp);
     fclose(fp);
@@ -124,7 +124,8 @@ void deposit() {
 
             a.balance += amount;
 
-            fseek(fp,-sizeof(a),SEEK_CUR);
+            // Fixed warning by casting sizeof(a) to long
+            fseek(fp, -(long)sizeof(a), SEEK_CUR);
             fwrite(&a,sizeof(a),1,fp);
 
             fclose(fp);
@@ -168,7 +169,8 @@ void withdraw() {
 
             a.balance -= amount;
 
-            fseek(fp,-sizeof(a),SEEK_CUR);
+            // Fixed warning by casting sizeof(a) to long
+            fseek(fp, -(long)sizeof(a), SEEK_CUR);
             fwrite(&a,sizeof(a),1,fp);
 
             fclose(fp);
